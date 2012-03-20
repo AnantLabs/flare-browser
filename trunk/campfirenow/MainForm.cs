@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Flare.CampfireModels;
 
 namespace Flare
 {
@@ -26,7 +27,7 @@ namespace Flare
          // isInStartUpMode = (args.Length > 0 && args[0] == "-startup");
       }
 
-      public Account Account
+      public Settings Settings
       {
          get;
          set;
@@ -38,10 +39,9 @@ namespace Flare
       {
          Startup();
 
-         if (Account.User.MinimiseDuringStartup)
+         if (Settings.MinimiseDuringStartup)
             WindowState = FormWindowState.Minimized;
 
-         // Check for any Flare updates
          autoUpdater.TryUpdate();
       }
 
@@ -49,39 +49,33 @@ namespace Flare
       {
          try
          {
-            Account = Account.FromRegistry();
-            
-            if (Account == null)
+            Settings = Settings.FromRegistry();
+
+            if (Settings == null)
             {
+               Settings = new Settings();
+
                // Show the modal dialog to fill these details
-               var setupForm = new SetupDialog( null );
-               setupForm.ShowDialog();
-
-               // Try again to retreive the details from the registry
-               Account = Account.FromRegistry();
-            }
-
-            // If the Account is still null, the user cancelled the dialog, the expected behaviour here is to quit
-            if ( Account == null )
-            {
-               Application.Exit();
-            }
-            else
-            {
-               _fileNotificationsCheckboxMenuItem.Checked = Account.User.ShowMessageNotifications;
-
-               // Does the user use a proxy server?
-               IWebProxy proxy = WebRequest.DefaultWebProxy;
-               if ( !proxy.IsBypassed( Account.CampfireUri ) )
+               var setupForm = new SetupDialog(Settings);
+               if (setupForm.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
                {
-                  autoUpdater.ProxyEnabled = true;
-                  autoUpdater.ProxyURL = proxy.GetProxy( Account.CampfireUri ).AbsoluteUri;
+                  Application.Exit();
                }
-
-               Text = string.Format( "{0} - Flare", Account.Name );
-
-               // TODO Load the Lobby
             }
+
+            _fileNotificationsCheckboxMenuItem.Checked = Settings.ShowMessageNotifications;
+
+            // Does the user use a proxy server?
+            //IWebProxy proxy = WebRequest.DefaultWebProxy;
+            //if ( !proxy.IsBypassed( Account.CampfireUri ) )
+            //{
+            //   autoUpdater.ProxyEnabled = true;
+            //   autoUpdater.ProxyURL = proxy.GetProxy( Account.CampfireUri ).AbsoluteUri;
+            //}
+
+            Text = string.Format( "{0} - Flare", Settings.User.Username );
+
+            // TODO Load the Lobby
          }
          catch (Exception err)
          {
@@ -91,25 +85,14 @@ namespace Flare
 
       private void SaveOpenRooms()
       {
-         Account.User.RoomNames = new List<string>();
-         foreach (TabPage tabPage in tabControl.TabPages)
-         {
-            var browser = (WebBrowser)tabPage.Controls[0];
-            if (browser.Document != null && browser.Document.Url != null &&
-                browser.Document.Url.AbsoluteUri.Contains("/room/"))
-            {
-               Account.User.RoomNames.Add(Regex.Match(browser.Document.Url.AbsoluteUri, ".*(/room/.*)").Groups[1].Value);
-            }
-         }
-         Account.Save();
+         Settings.Save();
       }
 
       private void changeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         var setupForm = new SetupDialog(Account.FromRegistry());
+         var setupForm = new SetupDialog(Settings);
 
          // if anything was changed, reload the page
-         // TODO Check if anything changed
          if (setupForm.ShowDialog() == DialogResult.OK)
          {
             for (int i = 1; i < tabControl.TabPages.Count; i++)
@@ -120,8 +103,6 @@ namespace Flare
             Startup();
          }
       }
-
-      
 
       private void MainForm_Resize(object sender, EventArgs e)
       {
@@ -153,38 +134,9 @@ namespace Flare
 
       private void showMessageNotificationToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         if (_fileNotificationsCheckboxMenuItem.Checked)
-         {
-            _fileNotificationsCheckboxMenuItem.Checked = false;
+         Settings.ShowMessageNotifications = !_fileNotificationsCheckboxMenuItem.Checked;
 
-            // Attempt to open the key
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Flare", true);
-
-            // If the return value is null, the key doesn't exist
-            if (key == null)
-            {
-               // The key doesn't exist; create it / open it
-               key = Registry.CurrentUser.CreateSubKey("Software\\Flare");
-            }
-
-            key.SetValue("showMsgNotify", "0");
-         }
-         else
-         {
-            _fileNotificationsCheckboxMenuItem.Checked = true;
-
-            // Attempt to open the key
-            RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\Flare", true);
-
-            // If the return value is null, the key doesn't exist
-            if (key == null)
-            {
-               // The key doesn't exist; create it / open it
-               key = Registry.CurrentUser.CreateSubKey("Software\\Flare");
-            }
-
-            key.SetValue("showMsgNotify", "1");
-         }
+         Settings.Save();
       }
 
       private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -271,7 +223,7 @@ namespace Flare
 
       private void MainForm_FormClosing( object sender, FormClosingEventArgs e )
       {
-         if ( !_userWantsToQuit && Account.User.MinimiseInsteadOfQuitting )
+         if ( !_userWantsToQuit && Settings.MinimiseInsteadOfQuitting )
          {
             if ( Environment.OSVersion.Version.Major < 6 )    // if we're not on Vista or above:
                Minimise();

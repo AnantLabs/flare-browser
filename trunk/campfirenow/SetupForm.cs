@@ -2,26 +2,17 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using Flare.CampfireModels;
 
 namespace Flare
 {
    public partial class SetupDialog : Form
    {
-      /*
-       * TODO
-       * Allow the user to set his nickname, if nickname not set default to Account name
-       * Allow user to login
-       */
+      private Settings _settings;
 
-      public Account Account
+      public SetupDialog(Settings settings)
       {
-         private set;
-         get;
-      }
-
-      public SetupDialog( Account account )
-      {
-         Account = account;
+         _settings = settings;
 
          InitializeComponent();
 
@@ -41,21 +32,16 @@ namespace Flare
             return;
          }
 
-         Account.Name = _accountNameTextBox.Text;
-         Account.UseSsl = _useSslCheckBox.Checked;
+         if (_settings.User == null)
+            _settings.User = new User();
+         _settings.User.Nickname = _nicknameTextBox.Text;
 
-         if (Account.User == null)
-            Account.User = new User();
+         _settings.MinimiseDuringStartup = _minimiseFlareOnStartupCheckBox.Checked;
+         _settings.MinimiseInsteadOfQuitting = _minimizeFlareWhenUserClosesWindowCheckBox.Checked;
+         _settings.NotifyOnlyWhenNicknameIsFound = _alertOnNicknameCheckBox.Checked;
+         _settings.NotifyWindowDelay = notifyWindowDelay;
 
-         // TODO set token
-
-         Account.User.MinimiseDuringStartup = _minimiseFlareOnStartupCheckBox.Checked;
-         Account.User.MinimiseInsteadOfQuitting = _minimizeFlareWhenUserClosesWindowCheckBox.Checked;
-         Account.User.Nickname = _nicknameTextBox.Text;
-         Account.User.NotifyOnlyWhenNicknameIsFound = _alertOnNicknameCheckBox.Checked;
-         Account.User.NotifyWindowDelay = notifyWindowDelay;
-
-         Account.Save();
+         _settings.Save();
 
          SetStartupSituation(_startFlareOnStartUpCheckbox.Checked);
 
@@ -69,23 +55,16 @@ namespace Flare
 
       private void OnLoaded(object sender, EventArgs e)
       {
-         if (Account != null)
+         if (_settings != null)
          {
-            _accountNameTextBox.Text = Account.Name;
-
             // display account name
 
-            _nicknameTextBox.Text = Account.User.Nickname;
-            _notificationWindowDelayTextBox.Text = Account.User.NotifyWindowDelay.ToString();
-            _alertOnNicknameCheckBox.Checked = Account.User.NotifyOnlyWhenNicknameIsFound;
-            _useSslCheckBox.Checked = Account.UseSsl;
-            _minimiseFlareOnStartupCheckBox.Checked = Account.User.MinimiseDuringStartup;
+            _nicknameTextBox.Text = _settings.User.Nickname;
+            _notificationWindowDelayTextBox.Text = _settings.NotifyWindowDelay.ToString();
+            _alertOnNicknameCheckBox.Checked = _settings.NotifyOnlyWhenNicknameIsFound;
+            _minimiseFlareOnStartupCheckBox.Checked = _settings.MinimiseDuringStartup;
             _startFlareOnStartUpCheckbox.Checked = GetStartupSituation();
-            _minimizeFlareWhenUserClosesWindowCheckBox.Checked = Account.User.MinimiseInsteadOfQuitting;
-         }
-         else
-         {
-            Account = new Account();
+            _minimizeFlareWhenUserClosesWindowCheckBox.Checked = _settings.MinimiseInsteadOfQuitting;
          }
       }
 
@@ -123,8 +102,11 @@ namespace Flare
             File.Delete(startupShortcut);
       }
 
-      private void nicknameBox_TextChanged(object sender, EventArgs e)
+      private void _loginButton_Click(object sender, EventArgs e)
       {
+         var credentials = CampfireApiNet.CampfireLogin.OauthLogin(@"",@"");
+
+         _settings.User.Token = credentials.OauthToken;
       }
    }
 }

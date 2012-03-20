@@ -67,6 +67,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>AutoUpdaterResources\AutoUpdater.dll</HintPath>
     </Reference>
+    <Reference Include="CampfireApiNet">
+      <HintPath>.\CampfireApiNet.dll</HintPath>
+    </Reference>
     <Reference Include="CSharpZipLib, Version=0.5.0.0, Culture=neutral">
       <HintPath>AutoUpdaterResources\CSharpZipLib.dll</HintPath>
     </Reference>
@@ -79,7 +82,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CampfireModels\Account.cs" />
+    <Compile Include="CampfireModels\Settings.cs" />
     <Compile Include="Exceptions\FlareException.cs" />
     <Compile Include="Interop\InteropUtility.cs" />
     <Compile Include="MainForm.cs">
@@ -166,6 +169,7 @@
     <None Include="Resources\indicator2.gif" />
     <None Include="Resources\newMsg.ico" />
     <None Include="Resources\noNewMsgs.ICO" />
+    <Content Include="CampfireApiNet.dll" />
     <Content Include="Resources\Flare48.ico" />
     <None Include="Resources\notifybg2.jpg" />
     <None Include="Resources\updates.xml" />

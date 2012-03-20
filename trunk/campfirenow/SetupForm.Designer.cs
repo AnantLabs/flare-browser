@@ -33,13 +33,6 @@ namespace Flare
          this._cancelButton = new System.Windows.Forms.Button();
          this.tabControl = new System.Windows.Forms.TabControl();
          this.accountTab = new System.Windows.Forms.TabPage();
-         this.userDetailsGroupBox = new System.Windows.Forms.GroupBox();
-         this.accountDetailsGroupBox = new System.Windows.Forms.GroupBox();
-         this.sslSupportLabel = new System.Windows.Forms.Label();
-         this.accountNameLabel = new System.Windows.Forms.Label();
-         this._useSslCheckBox = new System.Windows.Forms.CheckBox();
-         this._accountNameTextBox = new System.Windows.Forms.TextBox();
-         this.label2 = new System.Windows.Forms.Label();
          this.optionsTab = new System.Windows.Forms.TabPage();
          this.notificationWindowGroupBox = new System.Windows.Forms.GroupBox();
          this.label5 = new System.Windows.Forms.Label();
@@ -54,14 +47,17 @@ namespace Flare
          this._minimizeFlareWhenUserClosesWindowCheckBox = new System.Windows.Forms.CheckBox();
          this._minimiseFlareOnStartupCheckBox = new System.Windows.Forms.CheckBox();
          this._startFlareOnStartUpCheckbox = new System.Windows.Forms.CheckBox();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this._loginButton = new System.Windows.Forms.Button();
+         this.label2 = new System.Windows.Forms.Label();
          this.tabControl.SuspendLayout();
          this.accountTab.SuspendLayout();
-         this.accountDetailsGroupBox.SuspendLayout();
          this.optionsTab.SuspendLayout();
          this.notificationWindowGroupBox.SuspendLayout();
          this.nicknameGroupBox.SuspendLayout();
          this.startUpTabPage.SuspendLayout();
          this.groupBox1.SuspendLayout();
+         this.groupBox2.SuspendLayout();
          this.SuspendLayout();
          // 
          // _okButton
@@ -100,8 +96,7 @@ namespace Flare
          // 
          // accountTab
          // 
-         this.accountTab.Controls.Add(this.userDetailsGroupBox);
-         this.accountTab.Controls.Add(this.accountDetailsGroupBox);
+         this.accountTab.Controls.Add(this.groupBox2);
          this.accountTab.Location = new System.Drawing.Point(4, 22);
          this.accountTab.Name = "accountTab";
          this.accountTab.Padding = new System.Windows.Forms.Padding(3);
@@ -109,76 +104,6 @@ namespace Flare
          this.accountTab.TabIndex = 0;
          this.accountTab.Text = "Account";
          this.accountTab.UseVisualStyleBackColor = true;
-         // 
-         // userDetailsGroupBox
-         // 
-         this.userDetailsGroupBox.Location = new System.Drawing.Point(7, 95);
-         this.userDetailsGroupBox.Name = "userDetailsGroupBox";
-         this.userDetailsGroupBox.Size = new System.Drawing.Size(328, 105);
-         this.userDetailsGroupBox.TabIndex = 15;
-         this.userDetailsGroupBox.TabStop = false;
-         this.userDetailsGroupBox.Text = "Login";
-         // 
-         // accountDetailsGroupBox
-         // 
-         this.accountDetailsGroupBox.Controls.Add(this.sslSupportLabel);
-         this.accountDetailsGroupBox.Controls.Add(this.accountNameLabel);
-         this.accountDetailsGroupBox.Controls.Add(this._useSslCheckBox);
-         this.accountDetailsGroupBox.Controls.Add(this._accountNameTextBox);
-         this.accountDetailsGroupBox.Controls.Add(this.label2);
-         this.accountDetailsGroupBox.Location = new System.Drawing.Point(7, 7);
-         this.accountDetailsGroupBox.Name = "accountDetailsGroupBox";
-         this.accountDetailsGroupBox.Size = new System.Drawing.Size(328, 81);
-         this.accountDetailsGroupBox.TabIndex = 14;
-         this.accountDetailsGroupBox.TabStop = false;
-         this.accountDetailsGroupBox.Text = "Your account";
-         // 
-         // sslSupportLabel
-         // 
-         this.sslSupportLabel.AutoSize = true;
-         this.sslSupportLabel.Location = new System.Drawing.Point(7, 53);
-         this.sslSupportLabel.Name = "sslSupportLabel";
-         this.sslSupportLabel.Size = new System.Drawing.Size(68, 13);
-         this.sslSupportLabel.TabIndex = 19;
-         this.sslSupportLabel.Text = "SSL support:";
-         // 
-         // accountNameLabel
-         // 
-         this.accountNameLabel.AutoSize = true;
-         this.accountNameLabel.Location = new System.Drawing.Point(7, 27);
-         this.accountNameLabel.Name = "accountNameLabel";
-         this.accountNameLabel.Size = new System.Drawing.Size(82, 13);
-         this.accountNameLabel.TabIndex = 18;
-         this.accountNameLabel.Text = "Account name: ";
-         // 
-         // _useSslCheckBox
-         // 
-         this._useSslCheckBox.Location = new System.Drawing.Point(93, 50);
-         this._useSslCheckBox.Name = "_useSslCheckBox";
-         this._useSslCheckBox.Size = new System.Drawing.Size(174, 21);
-         this._useSslCheckBox.TabIndex = 17;
-         this._useSslCheckBox.Text = "This account uses SSL";
-         this._useSslCheckBox.UseVisualStyleBackColor = true;
-         // 
-         // _accountNameTextBox
-         // 
-         this._accountNameTextBox.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-         this._accountNameTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this._accountNameTextBox.Location = new System.Drawing.Point(93, 24);
-         this._accountNameTextBox.Name = "_accountNameTextBox";
-         this._accountNameTextBox.Size = new System.Drawing.Size(95, 20);
-         this._accountNameTextBox.TabIndex = 14;
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.label2.Location = new System.Drawing.Point(188, 27);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(96, 17);
-         this.label2.TabIndex = 16;
-         this.label2.Text = ".campfirenow.com";
-         this.label2.UseCompatibleTextRendering = true;
          // 
          // optionsTab
          // 
@@ -263,7 +188,6 @@ namespace Flare
          this._nicknameTextBox.Name = "_nicknameTextBox";
          this._nicknameTextBox.Size = new System.Drawing.Size(189, 20);
          this._nicknameTextBox.TabIndex = 12;
-         this._nicknameTextBox.TextChanged += new System.EventHandler(this.nicknameBox_TextChanged);
          // 
          // label6
          // 
@@ -326,7 +250,37 @@ namespace Flare
          this._startFlareOnStartUpCheckbox.Text = "Always start Flare when I login to my computer";
          this._startFlareOnStartUpCheckbox.UseVisualStyleBackColor = true;
          // 
-         // SetupForm
+         // groupBox2
+         // 
+         this.groupBox2.Controls.Add(this.label2);
+         this.groupBox2.Controls.Add(this._loginButton);
+         this.groupBox2.Location = new System.Drawing.Point(3, 6);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(335, 52);
+         this.groupBox2.TabIndex = 1;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "Login";
+         // 
+         // _loginButton
+         // 
+         this._loginButton.Location = new System.Drawing.Point(6, 19);
+         this._loginButton.Name = "_loginButton";
+         this._loginButton.Size = new System.Drawing.Size(75, 23);
+         this._loginButton.TabIndex = 0;
+         this._loginButton.Text = "Log In";
+         this._loginButton.UseVisualStyleBackColor = true;
+         this._loginButton.Click += new System.EventHandler(this._loginButton_Click);
+         // 
+         // label2
+         // 
+         this.label2.AutoSize = true;
+         this.label2.Location = new System.Drawing.Point(87, 24);
+         this.label2.Name = "label2";
+         this.label2.Size = new System.Drawing.Size(85, 13);
+         this.label2.TabIndex = 1;
+         this.label2.Text = "Logged in as {0}";
+         // 
+         // SetupDialog
          // 
          this.AcceptButton = this._okButton;
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -340,7 +294,7 @@ namespace Flare
          this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
          this.MaximizeBox = false;
          this.MinimizeBox = false;
-         this.Name = "SetupForm";
+         this.Name = "SetupDialog";
          this.ShowIcon = false;
          this.ShowInTaskbar = false;
          this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -348,8 +302,6 @@ namespace Flare
          this.Load += new System.EventHandler(this.OnLoaded);
          this.tabControl.ResumeLayout(false);
          this.accountTab.ResumeLayout(false);
-         this.accountDetailsGroupBox.ResumeLayout(false);
-         this.accountDetailsGroupBox.PerformLayout();
          this.optionsTab.ResumeLayout(false);
          this.notificationWindowGroupBox.ResumeLayout(false);
          this.notificationWindowGroupBox.PerformLayout();
@@ -357,6 +309,8 @@ namespace Flare
          this.nicknameGroupBox.PerformLayout();
          this.startUpTabPage.ResumeLayout(false);
          this.groupBox1.ResumeLayout(false);
+         this.groupBox2.ResumeLayout(false);
+         this.groupBox2.PerformLayout();
          this.ResumeLayout(false);
 
         }
@@ -368,13 +322,6 @@ namespace Flare
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage accountTab;
         private System.Windows.Forms.TabPage optionsTab;
-        private System.Windows.Forms.GroupBox accountDetailsGroupBox;
-        private System.Windows.Forms.CheckBox _useSslCheckBox;
-        private System.Windows.Forms.TextBox _accountNameTextBox;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label sslSupportLabel;
-        private System.Windows.Forms.Label accountNameLabel;
-        private System.Windows.Forms.GroupBox userDetailsGroupBox;
         private System.Windows.Forms.GroupBox nicknameGroupBox;
         private System.Windows.Forms.CheckBox _alertOnNicknameCheckBox;
         private System.Windows.Forms.TextBox _nicknameTextBox;
@@ -388,5 +335,8 @@ namespace Flare
         private System.Windows.Forms.CheckBox _minimizeFlareWhenUserClosesWindowCheckBox;
         private System.Windows.Forms.CheckBox _minimiseFlareOnStartupCheckBox;
         private System.Windows.Forms.CheckBox _startFlareOnStartUpCheckbox;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button _loginButton;
     }
 }
