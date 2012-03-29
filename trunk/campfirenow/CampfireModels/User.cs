@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading;
 using System.Windows.Forms;
 using Microsoft.Win32;
+using CampfireApiNet.Models;
 
 namespace Flare
 {
@@ -13,6 +14,14 @@ namespace Flare
    {
       public User()
       {
+      }
+
+      public UserCredential Credentials
+      {
+         get
+         {
+            return new UserCredential { OauthToken = Token, RefreshToken = RefreshToken };
+         }
       }
 
       public String Username { get; set; }

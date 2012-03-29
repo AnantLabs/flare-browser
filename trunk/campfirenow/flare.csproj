@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CampfireModels\Settings.cs" />
+    <Compile Include="Constants.cs" />
     <Compile Include="Exceptions\FlareException.cs" />
     <Compile Include="Interop\InteropUtility.cs" />
     <Compile Include="MainForm.cs">

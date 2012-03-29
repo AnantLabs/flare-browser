@@ -32,8 +32,6 @@ namespace Flare
             return;
          }
 
-         if (_settings.User == null)
-            _settings.User = new User();
          _settings.User.Nickname = _nicknameTextBox.Text;
 
          _settings.MinimiseDuringStartup = _minimiseFlareOnStartupCheckBox.Checked;
@@ -55,16 +53,24 @@ namespace Flare
 
       private void OnLoaded(object sender, EventArgs e)
       {
-         if (_settings != null)
-         {
-            // display account name
+         RefreshUsernameAndNickname();
+         _notificationWindowDelayTextBox.Text = _settings.NotifyWindowDelay.ToString();
+         _alertOnNicknameCheckBox.Checked = _settings.NotifyOnlyWhenNicknameIsFound;
+         _minimiseFlareOnStartupCheckBox.Checked = _settings.MinimiseDuringStartup;
+         _startFlareOnStartUpCheckbox.Checked = GetStartupSituation();
+         _minimizeFlareWhenUserClosesWindowCheckBox.Checked = _settings.MinimiseInsteadOfQuitting;
+      }
 
+      private void RefreshUsernameAndNickname()
+      {
+         if (string.IsNullOrEmpty(_settings.User.Token))
+         {
+            _loggedInAs.Text = @"Please log in";
+         }
+         else
+         {
+            _loggedInAs.Text = string.Format(@"Logged in as: {0}", _settings.User.Username);
             _nicknameTextBox.Text = _settings.User.Nickname;
-            _notificationWindowDelayTextBox.Text = _settings.NotifyWindowDelay.ToString();
-            _alertOnNicknameCheckBox.Checked = _settings.NotifyOnlyWhenNicknameIsFound;
-            _minimiseFlareOnStartupCheckBox.Checked = _settings.MinimiseDuringStartup;
-            _startFlareOnStartUpCheckbox.Checked = GetStartupSituation();
-            _minimizeFlareWhenUserClosesWindowCheckBox.Checked = _settings.MinimiseInsteadOfQuitting;
          }
       }
 
@@ -104,9 +110,18 @@ namespace Flare
 
       private void _loginButton_Click(object sender, EventArgs e)
       {
-         var credentials = CampfireApiNet.CampfireLogin.OauthLogin(@"",@"");
+         var credentials = CampfireApiNet.CampfireLogin.OauthLogin(Constants.AuthId, Constants.AuthRedirectUrl);
 
-         _settings.User.Token = credentials.OauthToken;
+         if (credentials != null)
+         {
+            _settings.User.Token = credentials.OauthToken;
+            _settings.User.RefreshToken = credentials.RefreshToken;
+
+            var authorization = CampfireApiNet.CampfireLogin.GetAuthorization(credentials);
+            _settings.User.Username = authorization.Identity.EmailAddress;
+
+            RefreshUsernameAndNickname();
+         }
       }
    }
 }

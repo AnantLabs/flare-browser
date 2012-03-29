@@ -33,6 +33,9 @@ namespace Flare
          this._cancelButton = new System.Windows.Forms.Button();
          this.tabControl = new System.Windows.Forms.TabControl();
          this.accountTab = new System.Windows.Forms.TabPage();
+         this.groupBox2 = new System.Windows.Forms.GroupBox();
+         this._loggedInAs = new System.Windows.Forms.Label();
+         this._loginButton = new System.Windows.Forms.Button();
          this.optionsTab = new System.Windows.Forms.TabPage();
          this.notificationWindowGroupBox = new System.Windows.Forms.GroupBox();
          this.label5 = new System.Windows.Forms.Label();
@@ -47,17 +50,14 @@ namespace Flare
          this._minimizeFlareWhenUserClosesWindowCheckBox = new System.Windows.Forms.CheckBox();
          this._minimiseFlareOnStartupCheckBox = new System.Windows.Forms.CheckBox();
          this._startFlareOnStartUpCheckbox = new System.Windows.Forms.CheckBox();
-         this.groupBox2 = new System.Windows.Forms.GroupBox();
-         this._loginButton = new System.Windows.Forms.Button();
-         this.label2 = new System.Windows.Forms.Label();
          this.tabControl.SuspendLayout();
          this.accountTab.SuspendLayout();
+         this.groupBox2.SuspendLayout();
          this.optionsTab.SuspendLayout();
          this.notificationWindowGroupBox.SuspendLayout();
          this.nicknameGroupBox.SuspendLayout();
          this.startUpTabPage.SuspendLayout();
          this.groupBox1.SuspendLayout();
-         this.groupBox2.SuspendLayout();
          this.SuspendLayout();
          // 
          // _okButton
@@ -104,6 +104,36 @@ namespace Flare
          this.accountTab.TabIndex = 0;
          this.accountTab.Text = "Account";
          this.accountTab.UseVisualStyleBackColor = true;
+         // 
+         // groupBox2
+         // 
+         this.groupBox2.Controls.Add(this._loggedInAs);
+         this.groupBox2.Controls.Add(this._loginButton);
+         this.groupBox2.Location = new System.Drawing.Point(3, 6);
+         this.groupBox2.Name = "groupBox2";
+         this.groupBox2.Size = new System.Drawing.Size(335, 52);
+         this.groupBox2.TabIndex = 1;
+         this.groupBox2.TabStop = false;
+         this.groupBox2.Text = "Login";
+         // 
+         // _loggedInAs
+         // 
+         this._loggedInAs.AutoSize = true;
+         this._loggedInAs.Location = new System.Drawing.Point(87, 24);
+         this._loggedInAs.Name = "_loggedInAs";
+         this._loggedInAs.Size = new System.Drawing.Size(85, 13);
+         this._loggedInAs.TabIndex = 1;
+         this._loggedInAs.Text = "Logged in as {0}";
+         // 
+         // _loginButton
+         // 
+         this._loginButton.Location = new System.Drawing.Point(6, 19);
+         this._loginButton.Name = "_loginButton";
+         this._loginButton.Size = new System.Drawing.Size(75, 23);
+         this._loginButton.TabIndex = 0;
+         this._loginButton.Text = "Log In";
+         this._loginButton.UseVisualStyleBackColor = true;
+         this._loginButton.Click += new System.EventHandler(this._loginButton_Click);
          // 
          // optionsTab
          // 
@@ -250,36 +280,6 @@ namespace Flare
          this._startFlareOnStartUpCheckbox.Text = "Always start Flare when I login to my computer";
          this._startFlareOnStartUpCheckbox.UseVisualStyleBackColor = true;
          // 
-         // groupBox2
-         // 
-         this.groupBox2.Controls.Add(this.label2);
-         this.groupBox2.Controls.Add(this._loginButton);
-         this.groupBox2.Location = new System.Drawing.Point(3, 6);
-         this.groupBox2.Name = "groupBox2";
-         this.groupBox2.Size = new System.Drawing.Size(335, 52);
-         this.groupBox2.TabIndex = 1;
-         this.groupBox2.TabStop = false;
-         this.groupBox2.Text = "Login";
-         // 
-         // _loginButton
-         // 
-         this._loginButton.Location = new System.Drawing.Point(6, 19);
-         this._loginButton.Name = "_loginButton";
-         this._loginButton.Size = new System.Drawing.Size(75, 23);
-         this._loginButton.TabIndex = 0;
-         this._loginButton.Text = "Log In";
-         this._loginButton.UseVisualStyleBackColor = true;
-         this._loginButton.Click += new System.EventHandler(this._loginButton_Click);
-         // 
-         // label2
-         // 
-         this.label2.AutoSize = true;
-         this.label2.Location = new System.Drawing.Point(87, 24);
-         this.label2.Name = "label2";
-         this.label2.Size = new System.Drawing.Size(85, 13);
-         this.label2.TabIndex = 1;
-         this.label2.Text = "Logged in as {0}";
-         // 
          // SetupDialog
          // 
          this.AcceptButton = this._okButton;
@@ -302,6 +302,8 @@ namespace Flare
          this.Load += new System.EventHandler(this.OnLoaded);
          this.tabControl.ResumeLayout(false);
          this.accountTab.ResumeLayout(false);
+         this.groupBox2.ResumeLayout(false);
+         this.groupBox2.PerformLayout();
          this.optionsTab.ResumeLayout(false);
          this.notificationWindowGroupBox.ResumeLayout(false);
          this.notificationWindowGroupBox.PerformLayout();
@@ -309,8 +311,6 @@ namespace Flare
          this.nicknameGroupBox.PerformLayout();
          this.startUpTabPage.ResumeLayout(false);
          this.groupBox1.ResumeLayout(false);
-         this.groupBox2.ResumeLayout(false);
-         this.groupBox2.PerformLayout();
          this.ResumeLayout(false);
 
         }
@@ -336,7 +336,7 @@ namespace Flare
         private System.Windows.Forms.CheckBox _minimiseFlareOnStartupCheckBox;
         private System.Windows.Forms.CheckBox _startFlareOnStartUpCheckbox;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label _loggedInAs;
         private System.Windows.Forms.Button _loginButton;
     }
 }

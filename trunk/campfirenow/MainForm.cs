@@ -7,6 +7,8 @@ using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using Microsoft.Win32;
 using Flare.CampfireModels;
+using CampfireApiNet.Models;
+using CampfireApiNet;
 
 namespace Flare
 {
@@ -23,8 +25,6 @@ namespace Flare
       public MainForm(string[] args)
       {
          InitializeComponent();
-
-         // isInStartUpMode = (args.Length > 0 && args[0] == "-startup");
       }
 
       public Settings Settings
@@ -37,15 +37,17 @@ namespace Flare
 
       private void MainForm_Load(object sender, EventArgs e)
       {
-         Startup();
+         LoadSettings();
 
          if (Settings.MinimiseDuringStartup)
             WindowState = FormWindowState.Minimized;
 
          autoUpdater.TryUpdate();
+
+         RefreshUiWithSettings();
       }
 
-      private void Startup()
+      private void LoadSettings()
       {
          try
          {
@@ -54,7 +56,10 @@ namespace Flare
             if (Settings == null)
             {
                Settings = new Settings();
+            }
 
+            if ( string.IsNullOrEmpty(Settings.User.Token) )
+            {
                // Show the modal dialog to fill these details
                var setupForm = new SetupDialog(Settings);
                if (setupForm.ShowDialog() == System.Windows.Forms.DialogResult.Cancel)
@@ -62,20 +67,13 @@ namespace Flare
                   Application.Exit();
                }
             }
+            else
+            {
+               UserCredential refreshedCredentials = CampfireLogin.RefreshToken(Constants.AuthId, Constants.AuthSecret, Settings.User.RefreshToken);
 
-            _fileNotificationsCheckboxMenuItem.Checked = Settings.ShowMessageNotifications;
-
-            // Does the user use a proxy server?
-            //IWebProxy proxy = WebRequest.DefaultWebProxy;
-            //if ( !proxy.IsBypassed( Account.CampfireUri ) )
-            //{
-            //   autoUpdater.ProxyEnabled = true;
-            //   autoUpdater.ProxyURL = proxy.GetProxy( Account.CampfireUri ).AbsoluteUri;
-            //}
-
-            Text = string.Format( "{0} - Flare", Settings.User.Username );
-
-            // TODO Load the Lobby
+               Settings.User.RefreshToken = refreshedCredentials.RefreshToken;
+               Settings.User.Token = refreshedCredentials.OauthToken;
+            }
          }
          catch (Exception err)
          {
@@ -83,9 +81,15 @@ namespace Flare
          }
       }
 
-      private void SaveOpenRooms()
+      private void RefreshUiWithSettings()
       {
-         Settings.Save();
+         _fileNotificationsCheckboxMenuItem.Checked = Settings.ShowMessageNotifications;
+
+         Text = string.Format("{0} - Flare", Settings.User.Username);
+
+         // LoadLobby();
+
+         // OpenRoomTabs();
       }
 
       private void changeSettingsToolStripMenuItem_Click(object sender, EventArgs e)
@@ -100,7 +104,8 @@ namespace Flare
                tabControl.TabPages.RemoveAt(i);
                i--;
             }
-            Startup();
+
+            RefreshUiWithSettings();
          }
       }
 
@@ -185,17 +190,24 @@ namespace Flare
       {
          var tabPage = tabControl.SelectedTab;
          tabControl.TabPages.Remove(tabPage);
-         SaveOpenRooms();
+
+         // settings.rooms.remove( tab );
+
+         Settings.Save();
       }
 
       private void tabControl_SelectedIndexChanged(object sender, EventArgs e)
       {
-
+         // TODO
+         // focus the textbox
+         // scroll down the messages box?
       }
 
       private void MainForm_Activated(object sender, EventArgs e)
       {
-
+         // TODO
+         // focus the textbox
+         // scroll down the messages box?
       }
 
       private void makeADonationToFlareToolStripMenuItem_Click(object sender, EventArgs e)
