@@ -34,8 +34,11 @@ namespace Flare
          this.tabControl = new System.Windows.Forms.TabControl();
          this.accountTab = new System.Windows.Forms.TabPage();
          this.userDetailsGroupBox = new System.Windows.Forms.GroupBox();
+         this.loggedInAs = new System.Windows.Forms.Label();
+         this.loginButton = new System.Windows.Forms.Button();
          this.label = new System.Windows.Forms.Label();
          this.accountDetailsGroupBox = new System.Windows.Forms.GroupBox();
+         this.accountName = new System.Windows.Forms.ComboBox();
          this.accountNameLabel = new System.Windows.Forms.Label();
          this.label2 = new System.Windows.Forms.Label();
          this.optionsTab = new System.Windows.Forms.TabPage();
@@ -52,9 +55,6 @@ namespace Flare
          this.dontQuitCheckBox = new System.Windows.Forms.CheckBox();
          this.minimiseAtStartupCheckBox = new System.Windows.Forms.CheckBox();
          this.startUpCheckbox = new System.Windows.Forms.CheckBox();
-         this.accountName = new System.Windows.Forms.ComboBox();
-         this.loginButton = new System.Windows.Forms.Button();
-         this.loggedInAs = new System.Windows.Forms.Label();
          this.tabControl.SuspendLayout();
          this.accountTab.SuspendLayout();
          this.userDetailsGroupBox.SuspendLayout();
@@ -117,12 +117,32 @@ namespace Flare
          this.userDetailsGroupBox.Controls.Add(this.loggedInAs);
          this.userDetailsGroupBox.Controls.Add(this.loginButton);
          this.userDetailsGroupBox.Controls.Add(this.label);
-         this.userDetailsGroupBox.Location = new System.Drawing.Point(7, 72);
+         this.userDetailsGroupBox.Location = new System.Drawing.Point(6, 6);
          this.userDetailsGroupBox.Name = "userDetailsGroupBox";
          this.userDetailsGroupBox.Size = new System.Drawing.Size(328, 69);
          this.userDetailsGroupBox.TabIndex = 15;
          this.userDetailsGroupBox.TabStop = false;
          this.userDetailsGroupBox.Text = "Your details";
+         // 
+         // loggedInAs
+         // 
+         this.loggedInAs.AutoSize = true;
+         this.loggedInAs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+         this.loggedInAs.Location = new System.Drawing.Point(88, 46);
+         this.loggedInAs.Name = "loggedInAs";
+         this.loggedInAs.Size = new System.Drawing.Size(0, 16);
+         this.loggedInAs.TabIndex = 18;
+         this.loggedInAs.UseCompatibleTextRendering = true;
+         // 
+         // loginButton
+         // 
+         this.loginButton.Location = new System.Drawing.Point(10, 20);
+         this.loginButton.Name = "loginButton";
+         this.loginButton.Size = new System.Drawing.Size(75, 23);
+         this.loginButton.TabIndex = 17;
+         this.loginButton.Text = "Log In";
+         this.loginButton.UseVisualStyleBackColor = true;
+         this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
          // 
          // label
          // 
@@ -140,12 +160,20 @@ namespace Flare
          this.accountDetailsGroupBox.Controls.Add(this.accountName);
          this.accountDetailsGroupBox.Controls.Add(this.accountNameLabel);
          this.accountDetailsGroupBox.Controls.Add(this.label2);
-         this.accountDetailsGroupBox.Location = new System.Drawing.Point(7, 7);
+         this.accountDetailsGroupBox.Location = new System.Drawing.Point(6, 81);
          this.accountDetailsGroupBox.Name = "accountDetailsGroupBox";
          this.accountDetailsGroupBox.Size = new System.Drawing.Size(328, 59);
          this.accountDetailsGroupBox.TabIndex = 14;
          this.accountDetailsGroupBox.TabStop = false;
          this.accountDetailsGroupBox.Text = "Your account";
+         // 
+         // accountName
+         // 
+         this.accountName.FormattingEnabled = true;
+         this.accountName.Location = new System.Drawing.Point(93, 24);
+         this.accountName.Name = "accountName";
+         this.accountName.Size = new System.Drawing.Size(121, 21);
+         this.accountName.TabIndex = 19;
          // 
          // accountNameLabel
          // 
@@ -312,34 +340,6 @@ namespace Flare
          this.startUpCheckbox.TabIndex = 14;
          this.startUpCheckbox.Text = "Always start Flare when I login to my computer";
          this.startUpCheckbox.UseVisualStyleBackColor = true;
-         // 
-         // accountName
-         // 
-         this.accountName.FormattingEnabled = true;
-         this.accountName.Location = new System.Drawing.Point(93, 24);
-         this.accountName.Name = "accountName";
-         this.accountName.Size = new System.Drawing.Size(121, 21);
-         this.accountName.TabIndex = 19;
-         // 
-         // loginButton
-         // 
-         this.loginButton.Location = new System.Drawing.Point(10, 20);
-         this.loginButton.Name = "loginButton";
-         this.loginButton.Size = new System.Drawing.Size(75, 23);
-         this.loginButton.TabIndex = 17;
-         this.loginButton.Text = "Log In";
-         this.loginButton.UseVisualStyleBackColor = true;
-         this.loginButton.Click += new System.EventHandler(this.loginButton_Click);
-         // 
-         // loggedInAs
-         // 
-         this.loggedInAs.AutoSize = true;
-         this.loggedInAs.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-         this.loggedInAs.Location = new System.Drawing.Point(88, 46);
-         this.loggedInAs.Name = "loggedInAs";
-         this.loggedInAs.Size = new System.Drawing.Size(0, 16);
-         this.loggedInAs.TabIndex = 18;
-         this.loggedInAs.UseCompatibleTextRendering = true;
          // 
          // SetupForm
          // 

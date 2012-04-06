@@ -33,20 +33,15 @@ namespace Flare
 
       protected override void OnLoad(EventArgs e)
       {
-         if (isInStartUpMode)
-         {
-            isInStartUpMode = false;
-            Hide();
-            notifyIcon.Visible = true;
-            notifyIcon.Text = Text;
-         }
+         autoUpdater.TryUpdate();
 
          Startup();
 
-         if (Account.User.MinimiseDuringStartup)
-            WindowState = FormWindowState.Minimized;
-
-         autoUpdater.TryUpdate();
+         if (isInStartUpMode && Account.User.MinimiseDuringStartup)
+         {
+            isInStartUpMode = false;
+            Minimise();
+         }
 
          base.OnLoad(e);
       }
@@ -56,7 +51,6 @@ namespace Flare
          try
          {
             Account = Account.FromRegistry();
-            Account.User.Token = @"BAhbByIBsHsiZXhwaXJlc19hdCI6IjIwMTItMDQtMTJUMjM6NTc6NDRaIiwidXNlcl9pZHMiOlsxMDk3ODk0MV0sInZlcnNpb24iOjEsImNsaWVudF9pZCI6IjNhZWY3MDQwZjQwNGZkMDE5NjMxMDIxNWQwZWVhODMyYzBhMmFlN2MiLCJhcGlfZGVhZGJvbHQiOiI1NDJmMDY4ZDhiNTMyNjcxMjQzMTljNDdmODk1ZjgxNyJ9dToJVGltZQ2XDRzABhXC5g==--34fb70153ea510f773c1dab37614b9b7f0713cf6";
 
             if (Account == null || string.IsNullOrEmpty(Account.User.Token))
             {
@@ -81,6 +75,7 @@ namespace Flare
             if (Account == null)
             {
                Application.Exit();
+               return;
             }
             else
             {
@@ -468,8 +463,11 @@ namespace Flare
 
       private void RefreshSelectedTab()
       {
-         tabPageCloseBtn.Enabled = (tabControl.SelectedIndex != 0);
-         SelectedBrowser.TabSelected();
+         if (tabControl.TabCount != 0)
+         {
+            tabPageCloseBtn.Enabled = (tabControl.SelectedIndex != 0);
+            SelectedBrowser.TabSelected();
+         }
       }
 
       protected override void OnClosing(CancelEventArgs e)

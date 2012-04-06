@@ -87,32 +87,32 @@ namespace Flare
       {
          account = Account.FromRegistry();
 
-         if (account != null)
+         if (account == null)
          {
-            accountName.Text = account.Name;
-            loggedInAs.Text = account.User.Username;
-            nicknameBox.Text = account.User.Nickname;
-            notificationWindowDelayTextBox.Text = account.User.NotifyWindowDelay.ToString();
-            nickNotifications.Checked = account.User.NotifyOnlyWhenNicknameIsFound;
-            minimiseAtStartupCheckBox.Checked = account.User.MinimiseDuringStartup;
-            startUpCheckbox.Checked = GetStartupSituation();
-            dontQuitCheckBox.Checked = account.User.MinimiseInsteadOfQuitting;
-
-            NewToken = account.User.Token;
-            NewAccountName = accountName.Text;
-            NewNickname = nicknameBox.Text;
-            NewNotifyOnlyWhenNicknameIsFound = nickNotifications.Checked;
-
-            try
-            {
-               RefreshAuthorization(NewToken);
-            }
-            catch
-            {
-            }
-         }
-         else
             account = new Account();
+         }
+
+         accountName.Text = account.Name;
+         loggedInAs.Text = account.User.Username;
+         nicknameBox.Text = account.User.Nickname;
+         notificationWindowDelayTextBox.Text = account.User.NotifyWindowDelay.ToString();
+         nickNotifications.Checked = account.User.NotifyOnlyWhenNicknameIsFound;
+         minimiseAtStartupCheckBox.Checked = account.User.MinimiseDuringStartup;
+         startUpCheckbox.Checked = GetStartupSituation();
+         dontQuitCheckBox.Checked = account.User.MinimiseInsteadOfQuitting;
+
+         NewToken = account.User.Token;
+         NewAccountName = accountName.Text;
+         NewNickname = nicknameBox.Text;
+         NewNotifyOnlyWhenNicknameIsFound = nickNotifications.Checked;
+
+         try
+         {
+            RefreshAuthorization(NewToken);
+         }
+         catch
+         {
+         }
       }
 
       private static bool GetStartupSituation()
