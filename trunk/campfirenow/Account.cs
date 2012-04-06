@@ -8,6 +8,12 @@ namespace Flare
       public String Name { get; set; }
       public User User { get; set; }
 
+      public Account()
+      {
+         Name = String.Empty;
+         User = new User();
+      }
+
       public string CampfireUrl
       {
          get { return String.Format("https://{0}.campfirenow.com/", Name); }

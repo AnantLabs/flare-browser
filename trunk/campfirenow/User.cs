@@ -25,6 +25,10 @@ namespace Flare
 
       public User()
       {
+         Username = string.Empty;
+         Token = string.Empty;
+         RefreshToken = string.Empty;
+         NotifyWindowDelay = 1500;
       }
 
       public String Token { get; set; }
