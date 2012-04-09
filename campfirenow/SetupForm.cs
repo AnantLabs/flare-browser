@@ -36,12 +36,13 @@ namespace Flare
             return;
          }
 
-         if (string.IsNullOrEmpty(NewAccountName))
+         if (string.IsNullOrEmpty(accountName.Text))
          {
             MessageBox.Show("An account must be selected");
             return;
          }
-         else if (string.IsNullOrEmpty(NewToken))
+         
+         if (string.IsNullOrEmpty(NewToken))
          {
             MessageBox.Show("You must login to continue");
             return;
@@ -183,7 +184,7 @@ namespace Flare
 
          if (!accountName.Items.Contains(NewAccountName))
          {
-            accountName.Text = @"";
+            accountName.SelectedIndex = 0;
          }
 
          loggedInAs.Text = auth.Identity.EmailAddress;
